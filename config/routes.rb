@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   root "users#new"
 
   resources :users, only: [:create]
+  delete "logout", to: "users#destroy", as: :logout
 
   resources :deployments, only: [:index, :new, :create, :show] do
     member do

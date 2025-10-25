@@ -1,0 +1,28 @@
+<div class="navbar bg-base-200 border-b border-base-400">
+  <div class="navbar-start pl-2">
+    <a href="<%= current_user ? deployments_path : root_path %>" class="flex items-center gap-2 text-xl">
+      <%= phosphor_icon "subway", class: "h-7 w-7 bg-base-content rounded-full p-1 text-primary-content" %>
+      Subway
+    </a>
+  </div>
+  
+  <% if current_user %>
+    <div class="navbar-center">
+      <% if content_for?(:breadcrumbs) %>
+        <div class="breadcrumbs text-sm">
+          <ul>
+            <%= yield(:breadcrumbs) %>
+          </ul>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="navbar-end">
+      <%= button_to logout_path, method: :delete, class: "btn btn-ghost" do %>
+        <%= phosphor_icon "sign-out", class: "h-5 w-5" %>
+        Logout
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
