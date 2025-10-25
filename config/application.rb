@@ -6,7 +6,7 @@ require "rails/all"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-module Shuttle
+module Subway
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 8.0
@@ -23,5 +23,12 @@ module Shuttle
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    # Configure generators to use FactoryBot instead of fixtures
+    config.generators do |g|
+      g.test_framework :test_unit, fixture: false
+      g.factory_bot true
+      g.factory_bot_dir "test/factories"
+    end
   end
 end

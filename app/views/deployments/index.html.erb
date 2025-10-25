@@ -1,0 +1,74 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-12 px-4">
+  <div class="max-w-6xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <h1 class="text-4xl font-bold text-white mb-2">My Deployments</h1>
+        <p class="text-blue-200">Manage your Railway services</p>
+      </div>
+      <a 
+        href="<%= new_deployment_path %>" 
+        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow-md transition duration-200 flex items-center space-x-2"
+      >
+        <%= phosphor_icon "plus", class: "h-5 w-5" %>
+        <span>New Deployment</span>
+      </a>
+    </div>
+
+    <% if @deployments.empty? %>
+      <div class="bg-white rounded-lg shadow-xl p-12 text-center">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-4">
+          <%= phosphor_icon "empty", class: "h-10 w-10 text-blue-600" %>
+        </div>
+        <h2 class="text-2xl font-semibold text-gray-800 mb-2">No deployments yet</h2>
+        <p class="text-gray-600 mb-6">Create your first deployment to get started</p>
+        <a  
+          href="<%= new_deployment_path %>" 
+          class="inline-flex items-center space-x-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow-md transition duration-200"
+        >
+          <%= phosphor_icon "plus", class: "h-5 w-5" %>
+          <span>New Deployment</span>
+        </a>
+      </div>
+    <% else %>
+      <div class="grid gap-6">
+        <% @deployments.each do |deployment| %>
+          <div class="bg-white rounded-lg shadow-xl overflow-hidden hover:shadow-2xl transition duration-200">
+            <div class="p-6">
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex-1">
+                  <h3 class="text-xl font-semibold text-gray-900 mb-1"><%= deployment.service_name %></h3>
+                  <p class="text-sm text-gray-600"><%= deployment.project_name %></p>
+                </div>
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                  Active
+                </span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <p class="text-xs text-gray-500 mb-1">Docker Image</p>
+                  <p class="text-sm font-mono text-gray-900 break-all"><%= deployment.docker_image %></p>
+                </div>
+                <div>
+                  <p class="text-xs text-gray-500 mb-1">Created</p>
+                  <p class="text-sm text-gray-900"><%= deployment.created_at.strftime("%b %d, %Y at %I:%M %p") %></p>
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-3 pt-4 border-t border-gray-200">
+                <a 
+                  href="<%= deployment_path(deployment) %>" 
+                  class="flex-1 text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md shadow-sm transition duration-200"
+                >
+                  View Details
+                </a>
+                <%= button_to "Restart", restart_deployment_path(deployment), method: :post, class: "px-4 py-2 border border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold rounded-md transition duration-200" %>
+                <%= button_to "Delete", deployment_path(deployment), method: :delete, data: { turbo_confirm: "Are you sure? This will delete the service from Railway." }, class: "px-4 py-2 border border-red-600 text-red-600 hover:bg-red-50 font-semibold rounded-md transition duration-200" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+</div>
+
