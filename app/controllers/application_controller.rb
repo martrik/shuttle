@@ -4,6 +4,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user
 
+  def icon_generator
+    render "shared/icon_generator"
+  end
+
   private
 
   def current_user
