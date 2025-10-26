@@ -8,4 +8,3 @@ FactoryBot.define do
     project_name { "Project #{rand(1..100)}" }
   end
 end
-

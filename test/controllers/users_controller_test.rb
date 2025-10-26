@@ -70,7 +70,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     RailwayClient.stub :new, @client_mock do
       @client_mock.expect :fetch_projects, []
 
-      User.stub :find_or_create_by!, -> (*args) { raise ActiveRecord::RecordInvalid.new } do
+      User.stub :find_or_create_by!, ->(*args) { raise ActiveRecord::RecordInvalid.new } do
         assert_no_difference("User.count") do
           post users_path, params: { railway_api_key: @valid_api_key }
         end

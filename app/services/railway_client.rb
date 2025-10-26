@@ -144,4 +144,3 @@ class RailwayClient
     response.body["data"]["service"]
   end
 end
-

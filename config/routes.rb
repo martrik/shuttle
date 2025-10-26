@@ -12,10 +12,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "users#new"
 
-  resources :users, only: [:create]
+  resources :users, only: [ :create ]
   delete "logout", to: "users#destroy", as: :logout
 
-  resources :deployments, only: [:index, :new, :create, :show] do
+  resources :deployments, only: [ :index, :new, :create, :show ] do
     member do
       delete :destroy
       post :restart

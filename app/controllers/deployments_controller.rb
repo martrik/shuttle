@@ -1,6 +1,6 @@
 class DeploymentsController < ApplicationController
   before_action :authenticate_user
-  before_action :set_deployment, only: [:show, :destroy, :restart]
+  before_action :set_deployment, only: [ :show, :destroy, :restart ]
 
   def index
     @deployments = current_user.deployments.order(created_at: :desc)

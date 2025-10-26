@@ -42,7 +42,7 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get new when authenticated" do
     sign_in_as(@user)
-    projects = [{ "id" => "proj1", "name" => "Project 1" }]
+    projects = [ { "id" => "proj1", "name" => "Project 1" } ]
 
     railway_client_mock = Minitest::Mock.new
     railway_client_mock.expect :fetch_projects, projects
@@ -60,8 +60,8 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
     service = { "id" => "svc1", "name" => "test-service" }
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_project, project, ["proj1"]
-    railway_client_mock.expect :create_service, service, [String, String, String]
+    railway_client_mock.expect :fetch_project, project, [ "proj1" ]
+    railway_client_mock.expect :create_service, service, [ String, String, String ]
 
     RailwayClient.stub :new, railway_client_mock do
       assert_difference("Deployment.count", 1) do
@@ -82,8 +82,8 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
     project = { "id" => "proj1", "name" => "Test Project" }
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_project, project, ["proj1"]
-    railway_client_mock.expect :create_service, nil, [String, String, String]
+    railway_client_mock.expect :fetch_project, project, [ "proj1" ]
+    railway_client_mock.expect :create_service, nil, [ String, String, String ]
 
     RailwayClient.stub :new, railway_client_mock do
       assert_no_difference("Deployment.count") do
@@ -104,7 +104,7 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
     service_details = { "id" => @deployment.service_id, "name" => "test-service" }
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_service_details, service_details, [@deployment.service_id]
+    railway_client_mock.expect :fetch_service_details, service_details, [ @deployment.service_id ]
 
     RailwayClient.stub :new, railway_client_mock do
       get deployment_path(@deployment)
@@ -127,7 +127,7 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(@user)
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :delete_service, true, [@deployment.service_id]
+    railway_client_mock.expect :delete_service, true, [ @deployment.service_id ]
 
     RailwayClient.stub :new, railway_client_mock do
       assert_difference("Deployment.count", -1) do
@@ -151,8 +151,8 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
     }
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_service_details, service_details, [@deployment.service_id]
-    railway_client_mock.expect :restart_deployment, true, ["dep1"]
+    railway_client_mock.expect :fetch_service_details, service_details, [ @deployment.service_id ]
+    railway_client_mock.expect :restart_deployment, true, [ "dep1" ]
 
     RailwayClient.stub :new, railway_client_mock do
       post restart_deployment_path(@deployment)
@@ -174,8 +174,8 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
     }
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_service_details, service_details, [@deployment.service_id]
-    railway_client_mock.expect :restart_deployment, false, ["dep1"]
+    railway_client_mock.expect :fetch_service_details, service_details, [ @deployment.service_id ]
+    railway_client_mock.expect :restart_deployment, false, [ "dep1" ]
 
     RailwayClient.stub :new, railway_client_mock do
       post restart_deployment_path(@deployment)
