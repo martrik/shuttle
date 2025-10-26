@@ -3,7 +3,7 @@
   <li>New deployment</li>
 <% end %>
 
-<div class="min-h-screen bg-base-200 py-12 px-4">
+<div class="bg-base-200 py-12 px-4">
   <div class="max-w-2xl mx-auto">
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body">
@@ -17,9 +17,8 @@
               id="name" 
               required
               class="input input-bordered w-full mt-1"
-              placeholder="e.g., my-app"
+              placeholder="e.g. cool-test"
             />
-            <p class="label mt-1">Name for your deployment</p>
           </div>
 
           <div>
@@ -32,7 +31,6 @@
               class="input input-bordered w-full mt-1"
               placeholder="e.g., nginx:latest or your-registry/image:tag"
             />
-            <p class="label mt-1 text-wrap">A new Railway project will be created automatically for this deployment</p>
           </div>
 
           <div class="card-actions justify-end">
@@ -41,7 +39,7 @@
             </a>
             <button type="submit" class="btn btn-primary">
               <%= phosphor_icon "plus", height: 20 %>
-              Create Deployment
+              Create deployment
             </button>
           </div>
         <% end %>
