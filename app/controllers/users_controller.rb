@@ -7,12 +7,12 @@ class UsersController < ApplicationController
     begin
       check_valid_api_key!
     rescue StandardError => e
-      puts "Error: #{e.message}"
       return redirect_to root_path, alert: "Invalid Railway API token. Please check your token and try again."
     end
 
     user = User.find_or_create_by!(railway_api_key: create_params)
     session[:user_id] = user.id
+    redirect_to deployments_path
   rescue StandardError => e
     redirect_to root_path, alert: "Failed to save Railway API key: #{e.message}"
   end
