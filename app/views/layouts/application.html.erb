@@ -23,7 +23,7 @@
   </head>
 
   <body class="bg-base-200">
-    <%= render "shared/navbar" %>
+    <%= render "shared/navbar" unless controller_name == "users" && action_name == "new" %>
     
     <% if flash[:notice] || flash[:alert] %>
       <div class="toast toast-top toast-end">

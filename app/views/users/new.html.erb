@@ -2,43 +2,41 @@
   <div class="max-w-md w-full">
     <div class="text-center mb-8">
       <div class="inline-flex items-center justify-center w-20 h-20 bg-primary rounded-full mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary-content" fill="currentColor" viewBox="0 0 256 256">
-          <path d="M184,184H72V152l57.7-57.71a8,8,0,0,0,0-11.31l-24-24a8,8,0,0,0-11.32,0L32,121.38V96a8,8,0,0,1,8-8H216a8,8,0,0,1,8,8v25.38l-62.34,62.34a8,8,0,0,0,0,11.31l24,24a8,8,0,0,0,11.32,0L240,176.62V208a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V176.62l32-32V184Z"/>
-        </svg>
+        <%= phosphor_icon "subway", height: 65, class: "text-primary-content" %>
       </div>
-      <h1 class="text-4xl font-bold mb-2">subway</h1>
+      <h1 class="text-4xl font-bold mb-2">Subway</h1>
       <p class="text-base-content/70">Railway Deployment Manager</p>
     </div>
 
     <div class="card bg-base-100 shadow-xl p-8">
-      <h2 class="text-2xl font-semibold text-gray-800 mb-6">All Aboard!</h2>
+      <h2 class="text-2xl font-semibold mb-6">All Aboard!</h2>
 
       <%= form_with url: users_path, method: :post, class: "space-y-6" do |f| %>
         <div>
-          <label for="railway_api_key" class="block text-sm font-medium text-gray-700 mb-2">
-            Railway API Token
-          </label>
+          <div class="label">
+            <span class="label">Railway API Token</span>
+          </div>
           <input 
             type="text" 
             name="railway_api_key" 
             id="railway_api_key" 
             required
-            class="w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            class="input w-full mt-1"
             placeholder="Enter your Railway API token"
           />
-          <p class="mt-2 text-xs text-gray-500">
-            Get your token from 
-            <a href="https://railway.app/account/tokens" target="_blank" class="text-blue-600 hover:text-blue-800 underline">
-              Railway Dashboard
-            </a>
-          </p>
+          <div class="label">
+            <span class="label text-xs opacity-70">
+              Get your token from 
+              <a href="https://railway.app/account/tokens" target="_blank" class="link link-primary">
+                Railway Dashboard
+              </a>
+            </span>
+          </div>
         </div>
 
         <button type="submit" class="w-full btn btn-primary">
           <span>Start Your Journey</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 256 256">
-            <path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/>
-          </svg>
+          <%= phosphor_icon "arrow-right", height: 20 %>
         </button>
       <% end %>
     </div>
