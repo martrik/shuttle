@@ -7,7 +7,7 @@
   <div class="max-w-2xl mx-auto">
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body">
-        <h2 class="card-title">Deploy to Railway</h2>
+        <h2 class="card-title">New Deployment</h2>
         <%= form_with url: deployments_path, method: :post, class: "space-y-6" do |f| %>
           <div>
             <label for="project_id" class="label">Railway Project</label>
@@ -15,7 +15,7 @@
               name="project_id" 
               id="project_id" 
               required
-              class="select select-bordered w-full"
+              class="select select-bordered w-full mt-1"
             >
               <option value="">Select a project...</option>
               <% @projects.each do |project| %>
@@ -32,7 +32,7 @@
               name="docker_image" 
               id="docker_image" 
               required
-              class="input input-bordered w-full"
+              class="input input-bordered w-full mt-1"
               placeholder="e.g., nginx:latest or your-registry/image:tag"
             />
             <p class="label mt-1">Full Docker image name with optional tag</p>
@@ -51,12 +51,6 @@
           </div>
         <% end %>
       </div>
-    </div>
-
-    <div class="mt-6 text-center">
-      <p class="text-sm text-base-content/70">
-        Your deployment will be tracked automatically
-      </p>
     </div>
   </div>
 </div>
