@@ -7,40 +7,53 @@ class RailwayClient
       conn.headers["Authorization"] = "Bearer #{@api_token}"
       conn.headers["Content-Type"] = "application/json"
       conn.request :json
-      # conn.response :raise_error
+      conn.response :raise_error
       conn.response :json
       conn.adapter Faraday.default_adapter
     end
   end
 
-  def fetch_projects
+  def validate_token
     query = <<~GRAPHQL
       query {
-        projects {
-          edges {
-            node {
-              id
-              name
-            }
-          }
+        me {
+          id
         }
       }
     GRAPHQL
 
-    response = @connection.post do |req|
+    @connection.post do |req|
       req.body = { query: query }
     end
-
-    response.body["data"]["projects"]["edges"].map { |edge| edge["node"] }
   end
 
-  def fetch_project(project_id)
+  def create_project(project_name)
     query = <<~GRAPHQL
-      query project($id: String!) {
-        project(id: $id) {
+      mutation projectCreate($input: ProjectCreateInput!) {
+        projectCreate(input: $input) {
           id
           name
         }
+      }
+    GRAPHQL
+
+    variables = {
+      input: {
+        name: project_name
+      }
+    }
+
+    response = @connection.post do |req|
+      req.body = { query: query, variables: variables }
+    end
+
+    response.body["data"]["projectCreate"]
+  end
+
+  def delete_project(project_id)
+    query = <<~GRAPHQL
+      mutation projectDelete($id: String!) {
+        projectDelete(id: $id)
       }
     GRAPHQL
 
@@ -50,7 +63,7 @@ class RailwayClient
       req.body = { query: query, variables: variables }
     end
 
-    response.body["data"]["project"]
+    response.body["data"]["projectDelete"]
   end
 
   def create_service(project_id, docker_image, service_name = nil)

@@ -27,7 +27,7 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
     get deployments_path
 
     assert_response :success
-    assert_select "body", text: /#{@deployment.service_name}/
+    assert_select "body", text: /#{@deployment.project_name}/
   end
 
   test "index should order deployments by created_at desc" do
@@ -42,31 +42,23 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
 
   test "should get new when authenticated" do
     sign_in_as(@user)
-    projects = [ { "id" => "proj1", "name" => "Project 1" } ]
-
-    railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_projects, projects
-
-    RailwayClient.stub :new, railway_client_mock do
-      get new_deployment_path
-      assert_response :success
-      railway_client_mock.verify
-    end
+    get new_deployment_path
+    assert_response :success
   end
 
   test "should create deployment successfully" do
     sign_in_as(@user)
-    project = { "id" => "proj1", "name" => "Test Project" }
-    service = { "id" => "svc1", "name" => "test-service" }
+    project = { "id" => "proj1", "name" => "my-app" }
+    service = { "id" => "svc1", "name" => "my-app" }
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_project, project, [ "proj1" ]
-    railway_client_mock.expect :create_service, service, [ String, String, String ]
+    railway_client_mock.expect :create_project, project, [ "my-app" ]
+    railway_client_mock.expect :create_service, service, [ "proj1", "nginx:latest", "my-app" ]
 
     RailwayClient.stub :new, railway_client_mock do
       assert_difference("Deployment.count", 1) do
         post deployments_path, params: {
-          project_id: "proj1",
+          name: "my-app",
           docker_image: "nginx:latest"
         }
       end
@@ -79,16 +71,17 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
 
   test "create should handle service creation failure" do
     sign_in_as(@user)
-    project = { "id" => "proj1", "name" => "Test Project" }
+    project = { "id" => "proj1", "name" => "my-app" }
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_project, project, [ "proj1" ]
-    railway_client_mock.expect :create_service, nil, [ String, String, String ]
+    railway_client_mock.expect :create_project, project, [ "my-app" ]
+    railway_client_mock.expect :create_service, nil, [ "proj1", "nginx:latest", "my-app" ]
+    railway_client_mock.expect :delete_project, true, [ "proj1" ]
 
     RailwayClient.stub :new, railway_client_mock do
       assert_no_difference("Deployment.count") do
         post deployments_path, params: {
-          project_id: "proj1",
+          name: "my-app",
           docker_image: "nginx:latest"
         }
       end
@@ -127,7 +120,7 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(@user)
 
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :delete_service, true, [ @deployment.service_id ]
+    railway_client_mock.expect :delete_project, true, [ @deployment.project_id ]
 
     RailwayClient.stub :new, railway_client_mock do
       assert_difference("Deployment.count", -1) do
@@ -190,7 +183,7 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
 
   def sign_in_as(user)
     railway_client_mock = Minitest::Mock.new
-    railway_client_mock.expect :fetch_projects, []
+    railway_client_mock.expect :validate_token, { "id" => "user123" }
 
     RailwayClient.stub :new, railway_client_mock do
       post users_path, params: { railway_api_key: user.railway_api_key }

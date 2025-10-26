@@ -7,6 +7,7 @@ class UsersController < ApplicationController
     begin
       check_valid_api_key!
     rescue StandardError => e
+      puts "Error: #{e.message}"
       return redirect_to root_path, alert: "Invalid Railway API token. Please check your token and try again."
     end
 
@@ -30,6 +31,6 @@ class UsersController < ApplicationController
 
   def check_valid_api_key!
     client = RailwayClient.new(create_params)
-    client.fetch_projects
+    client.validate_token
   end
 end

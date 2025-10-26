@@ -10,7 +10,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create new user with unique api key" do
     RailwayClient.stub :new, @client_mock do
-      @client_mock.expect :fetch_projects, []
+      @client_mock.expect :validate_token, { "id" => "user123" }
 
       assert_difference("User.count", 1) do
         post users_path, params: { railway_api_key: @valid_api_key }
@@ -27,7 +27,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     existing_user = User.create!(railway_api_key: "existing_key")
 
     RailwayClient.stub :new, @client_mock do
-      @client_mock.expect :fetch_projects, []
+      @client_mock.expect :validate_token, { "id" => "user123" }
 
       assert_no_difference("User.count") do
         post users_path, params: { railway_api_key: "existing_key" }
@@ -41,7 +41,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should set user_id in session after creation" do
     RailwayClient.stub :new, @client_mock do
-      @client_mock.expect :fetch_projects, []
+      @client_mock.expect :validate_token, { "id" => "user123" }
 
       post users_path, params: { railway_api_key: "session_test_key" }
       assert_not_nil session[:user_id]
@@ -52,7 +52,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect with error when api key validation fails" do
     client_stub = Object.new
-    def client_stub.fetch_projects
+    def client_stub.validate_token
       raise StandardError.new("API error")
     end
 
@@ -68,7 +68,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect with error when user creation fails" do
     RailwayClient.stub :new, @client_mock do
-      @client_mock.expect :fetch_projects, []
+      @client_mock.expect :validate_token, { "id" => "user123" }
 
       User.stub :find_or_create_by!, ->(*args) { raise ActiveRecord::RecordInvalid.new } do
         assert_no_difference("User.count") do

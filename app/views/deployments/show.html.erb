@@ -5,7 +5,7 @@
 
 <div class="min-h-screen bg-base-200 py-12 px-4">
   <div class="max-w-4xl mx-auto">
-    <div class="card bg-base-100 shadow-xl relative">
+    <div class="card bg-base-100 shadow-xl relative border border-base-300 overflow-hidden">
       <div class="card-body">
         <% if @service_details && @service_details["deployments"] && @service_details["deployments"]["edges"].any? %>
           <% last_deployment = @service_details["deployments"]["edges"].first["node"] %>
@@ -18,11 +18,6 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div class="space-y-4">
-            <div>
-              <h3 class="text-sm font-medium text-base-content/60 mb-1">Project name</h3>
-              <p class="text-lg font-semibold text-base-content"><%= @deployment.project_name %></p>
-            </div>
-
             <div>
               <h3 class="text-sm font-medium text-base-content/60 mb-1">Deployment name</h3>
               <p class="text-lg font-semibold text-base-content"><%= @deployment.service_name %></p>

@@ -7,25 +7,24 @@ class DeploymentsController < ApplicationController
   end
 
   def new
-    @railway_client = RailwayClient.new(current_user.railway_api_key)
-    @projects = @railway_client.fetch_projects
-  rescue StandardError => e
-    redirect_to root_path, alert: "Failed to fetch projects: #{e.message}"
   end
 
   def create
     railway_client = RailwayClient.new(current_user.railway_api_key)
-    project = railway_client.fetch_project(params[:project_id])
+
+    project_name = params[:name]
+
+    project = railway_client.create_project(project_name)
 
     service = railway_client.create_service(
-      params[:project_id],
+      project["id"],
       params[:docker_image],
-      "deployment-#{Time.now.to_i}"
+      project_name
     )
 
     if service
       deployment = current_user.deployments.create!(
-        project_id: params[:project_id],
+        project_id: project["id"],
         service_id: service["id"],
         docker_image: params[:docker_image],
         service_name: service["name"],
@@ -33,9 +32,11 @@ class DeploymentsController < ApplicationController
       )
       redirect_to deployment_path(deployment), notice: "Deployment created successfully!"
     else
+      railway_client.delete_project(project["id"])
       redirect_to new_deployment_path, alert: "Failed to create deployment."
     end
   rescue StandardError => e
+    railway_client.delete_project(project["id"]) if project
     redirect_to new_deployment_path, alert: "Failed to create deployment: #{e.message}"
   end
 
@@ -48,7 +49,7 @@ class DeploymentsController < ApplicationController
 
   def destroy
     railway_client = RailwayClient.new(current_user.railway_api_key)
-    railway_client.delete_service(@deployment.service_id)
+    railway_client.delete_project(@deployment.project_id)
     @deployment.destroy
     redirect_to deployments_path, notice: "Deployment deleted successfully!"
   rescue StandardError => e
