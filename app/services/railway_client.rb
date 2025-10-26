@@ -7,6 +7,7 @@ class RailwayClient
       conn.headers["Authorization"] = "Bearer #{@api_token}"
       conn.headers["Content-Type"] = "application/json"
       conn.request :json
+      # conn.response :raise_error
       conn.response :json
       conn.adapter Faraday.default_adapter
     end
@@ -30,11 +31,7 @@ class RailwayClient
       req.body = { query: query }
     end
 
-    if response.success? && response.body["data"]
-      response.body["data"]["projects"]["edges"].map { |edge| edge["node"] }
-    else
-      []
-    end
+    response.body["data"]["projects"]["edges"].map { |edge| edge["node"] }
   end
 
   def fetch_project(project_id)
@@ -53,11 +50,7 @@ class RailwayClient
       req.body = { query: query, variables: variables }
     end
 
-    if response.success? && response.body["data"]
-      response.body["data"]["project"]
-    else
-      nil
-    end
+    response.body["data"]["project"]
   end
 
   def create_service(project_id, docker_image, service_name = nil)
@@ -86,11 +79,7 @@ class RailwayClient
       req.body = { query: query, variables: variables }
     end
 
-    if response.success? && response.body["data"]
-      response.body["data"]["serviceCreate"]
-    else
-      nil
-    end
+    response.body["data"]["serviceCreate"]
   end
 
   def delete_service(service_id)
@@ -106,7 +95,7 @@ class RailwayClient
       req.body = { query: query, variables: variables }
     end
 
-    response.success? && response.body["data"]
+    response.body["data"]["serviceDelete"]
   end
 
   def restart_deployment(deployment_id)
@@ -122,7 +111,7 @@ class RailwayClient
       req.body = { query: query, variables: variables }
     end
 
-    response.success? && response.body["data"]
+    response.body["data"]["deploymentRestart"]
   end
 
   def fetch_service_details(service_id)
@@ -152,11 +141,7 @@ class RailwayClient
       req.body = { query: query, variables: variables }
     end
 
-    if response.success? && response.body["data"]
-      response.body["data"]["service"]
-    else
-      nil
-    end
+    response.body["data"]["service"]
   end
 end
 
