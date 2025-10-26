@@ -13,7 +13,6 @@ class UsersController < ApplicationController
 
     user = User.find_or_create_by!(railway_api_key: create_params)
     session[:user_id] = user.id
-    redirect_to deployments_path, notice: "Welcome! You can now deploy to Railway."
   rescue StandardError => e
     redirect_to root_path, alert: "Failed to save Railway API key: #{e.message}"
   end
