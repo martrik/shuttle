@@ -1,16 +1,16 @@
 <% content_for :breadcrumbs do %>
   <li><a href="<%= deployments_path %>">Deployments</a></li>
-  <li>New Deployment</li>
+  <li>New deployment</li>
 <% end %>
 
 <div class="min-h-screen bg-base-200 py-12 px-4">
   <div class="max-w-2xl mx-auto">
     <div class="card bg-base-100 shadow-xl">
       <div class="card-body">
-        <h2 class="card-title">New Deployment</h2>
+        <h2 class="card-title">New deployment</h2>
         <%= form_with url: deployments_path, method: :post, class: "space-y-6" do |f| %>
           <div>
-            <label for="project_id" class="label">Railway Project</label>
+            <label for="project_id" class="label">Railway project</label>
             <select 
               name="project_id" 
               id="project_id" 
@@ -26,7 +26,7 @@
           </div>
 
           <div>
-            <label for="docker_image" class="label">Docker Image</label>
+            <label for="docker_image" class="label">Docker image</label>
             <input 
               type="text" 
               name="docker_image" 

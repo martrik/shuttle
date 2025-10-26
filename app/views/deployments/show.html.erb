@@ -19,34 +19,34 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <div class="space-y-4">
             <div>
-              <h3 class="text-sm font-medium text-base-content/60 mb-1">Project Name</h3>
+              <h3 class="text-sm font-medium text-base-content/60 mb-1">Project name</h3>
               <p class="text-lg font-semibold text-base-content"><%= @deployment.project_name %></p>
             </div>
 
             <div>
-              <h3 class="text-sm font-medium text-base-content/60 mb-1">Deployment Name</h3>
+              <h3 class="text-sm font-medium text-base-content/60 mb-1">Deployment name</h3>
               <p class="text-lg font-semibold text-base-content"><%= @deployment.service_name %></p>
             </div>
 
             <div>
-              <h3 class="text-sm font-medium text-base-content/60 mb-1">Docker Image</h3>
+              <h3 class="text-sm font-medium text-base-content/60 mb-1">Docker image</h3>
               <p class="text-lg font-mono text-base-content break-all"><%= @deployment.docker_image %></p>
             </div>
           </div>
 
           <div class="space-y-4">
             <div>
-              <h3 class="text-sm font-medium text-base-content/60 mb-1">Created At</h3>
+              <h3 class="text-sm font-medium text-base-content/60 mb-1">Created at</h3>
               <p class="text-lg text-base-content"><%= @deployment.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
             </div>
 
             <div>
-              <h3 class="text-sm font-medium text-base-content/60 mb-1">Railway Service ID</h3>
+              <h3 class="text-sm font-medium text-base-content/60 mb-1">Railway service ID</h3>
               <p class="text-sm font-mono text-base-content/70 break-all"><%= @deployment.service_id %></p>
             </div>
 
             <div>
-              <h3 class="text-sm font-medium text-base-content/60 mb-1">Railway Project ID</h3>
+              <h3 class="text-sm font-medium text-base-content/60 mb-1">Railway project ID</h3>
               <p class="text-sm font-mono text-base-content/70 break-all"><%= @deployment.project_id %></p>
             </div>
           </div>
@@ -56,12 +56,12 @@
       <div class="card-actions bg-base-200 px-8 py-4 flex gap-3 justify-end">
         <%= button_to restart_deployment_path(@deployment), method: :post, class: "btn btn-primary flex-1" do %>
           <%= phosphor_icon "arrow-clockwise", height: 20 %>
-          <span>Restart Deployment</span>
+          <span>Restart</span>
         <% end %>
 
         <%= button_to deployment_path(@deployment), method: :delete, data: { turbo_confirm: "Are you sure? This will delete the deployment from Railway and remove it from Subway." }, class: "btn btn-error flex-1" do %>
           <%= phosphor_icon "trash", height: 20 %>
-          <span>Delete Deployment</span>
+          <span>Delete</span>
         <% end %>
       </div>
     </div>

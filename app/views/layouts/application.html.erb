@@ -26,7 +26,7 @@
     <%= render "shared/navbar" unless controller_name == "users" && action_name == "new" %>
     
     <% if flash[:notice] || flash[:alert] %>
-      <div class="toast toast-top toast-end">
+      <div class="toast toast-bottom toast-end">
         <% if flash[:notice] %>
           <div role="alert" class="alert alert-success">
             <%= phosphor_icon "check-circle", height: 24, class: "shrink-0 stroke-current" %>
