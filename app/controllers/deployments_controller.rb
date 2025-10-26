@@ -15,12 +15,12 @@ class DeploymentsController < ApplicationController
 
   def create
     railway_client = RailwayClient.new(current_user.railway_api_key)
-    project = railway_client.fetch_projects.find { |p| p["id"] == params[:project_id] }
+    project = railway_client.fetch_project(params[:project_id])
 
     service = railway_client.create_service(
       params[:project_id],
       params[:docker_image],
-      "service-#{Time.now.to_i}"
+      "deployment-#{Time.now.to_i}"
     )
 
     if service
@@ -43,7 +43,7 @@ class DeploymentsController < ApplicationController
     @railway_client = RailwayClient.new(current_user.railway_api_key)
     @service_details = @railway_client.fetch_service_details(@deployment.service_id)
   rescue StandardError => e
-    flash.now[:alert] = "Failed to fetch service details: #{e.message}"
+    flash.now[:alert] = "Failed to fetch deployment details: #{e.message}"
   end
 
   def destroy

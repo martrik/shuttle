@@ -37,6 +37,29 @@ class RailwayClient
     end
   end
 
+  def fetch_project(project_id)
+    query = <<~GRAPHQL
+      query project($id: String!) {
+        project(id: $id) {
+          id
+          name
+        }
+      }
+    GRAPHQL
+
+    variables = { id: project_id }
+
+    response = @connection.post do |req|
+      req.body = { query: query, variables: variables }
+    end
+
+    if response.success? && response.body["data"]
+      response.body["data"]["project"]
+    else
+      nil
+    end
+  end
+
   def create_service(project_id, docker_image, service_name = nil)
     service_name ||= "service-#{Time.now.to_i}"
 

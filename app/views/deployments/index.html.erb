@@ -2,7 +2,7 @@
   <div class="max-w-6xl mx-auto">
     <div class="flex items-center justify-end mb-8">
       <a href="<%= new_deployment_path %>" class="btn btn-primary">
-        <%= phosphor_icon "plus", class: "h-5 w-5" %>
+        <%= phosphor_icon "plus", height: 20 %>
         <span>New Deployment</span>
       </a>
     </div>
@@ -12,7 +12,7 @@
         <h2 class="text-2xl font-semibold mb-2">No deployments yet</h2>
         <p class="text-base-content/70 mb-6">Create your first deployment to get started</p>
         <a href="<%= new_deployment_path %>" class="btn btn-primary">
-          <%= phosphor_icon "plus", class: "h-5 w-5" %>
+          <%= phosphor_icon "plus", height: 20 %>
           <span>New Deployment</span>
         </a>
       </div>
@@ -39,7 +39,7 @@
               </div>
 
               <div class="card-actions justify-end mt-4">
-                <%= button_to "Delete", deployment_path(deployment), method: :delete, data: { turbo_confirm: "Are you sure? This will delete the service from Railway." }, class: "btn btn-outline btn-error btn-sm" %>
+                <%= button_to "Delete", deployment_path(deployment), method: :delete, data: { turbo_confirm: "Are you sure? This will delete the deployment from Railway." }, class: "btn btn-outline btn-error btn-sm" %>
                 <%= button_to "Restart", restart_deployment_path(deployment), method: :post, class: "btn btn-outline btn-primary btn-sm" %>
                 <a href="<%= deployment_path(deployment) %>" class="btn btn-primary btn-sm">
                   View Details
