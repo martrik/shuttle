@@ -13,9 +13,9 @@
 
       <%= form_with url: users_path, method: :post, class: "space-y-6" do |f| %>
         <div>
-          <div class="label">
-            <span class="label">Railway API token</span>
-          </div>
+          <label for="railway_api_key" class="label">
+            Railway API token
+          </label>
           <input 
             type="text" 
             name="railway_api_key" 
@@ -24,13 +24,8 @@
             class="input w-full mt-1"
             placeholder="Enter your Railway API token"
           />
-          <div class="label">
-            <span class="label text-xs opacity-70">
-              Get your token from 
-              <a href="https://railway.app/account/tokens" target="_blank" class="link link-primary">
-                Railway Dashboard
-              </a>
-            </span>
+          <div class="label text-xs">
+            Make sure that it is bound to a Workspace
           </div>
         </div>
 
