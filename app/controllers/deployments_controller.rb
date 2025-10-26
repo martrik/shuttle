@@ -30,7 +30,7 @@ class DeploymentsController < ApplicationController
         service_name: service["name"],
         project_name: project["name"]
       )
-      redirect_to deployment_path(deployment), notice: "Deployment created successfully!"
+      redirect_to deployment_path(deployment)
     else
       railway_client.delete_project(project["id"])
       redirect_to new_deployment_path, alert: "Failed to create deployment."

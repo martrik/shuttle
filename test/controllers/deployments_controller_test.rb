@@ -64,7 +64,6 @@ class DeploymentsControllerTest < ActionDispatch::IntegrationTest
       end
 
       assert_redirected_to deployment_path(Deployment.last)
-      assert_equal "Deployment created successfully!", flash[:notice]
       railway_client_mock.verify
     end
   end

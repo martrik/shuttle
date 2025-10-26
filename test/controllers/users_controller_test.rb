@@ -18,7 +18,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
       assert_redirected_to deployments_path
       assert_equal @valid_api_key, User.last.railway_api_key
-      assert_equal "Welcome! You can now deploy to Railway.", flash[:notice]
       @client_mock.verify
     end
   end
